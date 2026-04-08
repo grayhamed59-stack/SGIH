@@ -1,32 +1,90 @@
-This is Hospital Management System
+This is Hospital Management System  (SGIH)
 # Installation de Laravel
 Salut Hamed Issiaka, Adama Sangare ...
 
 Avant de créer ta première application Laravel, assure-toi d’installer les éléments suivants sur ta machine :
+Salut Hamed Issiaka,
 
-1. Installer PHP (version 8.1 ou plus)
+Voici comment installer Laravel étape par étape sur ton ordinateur 👇
 
-2. Installer Composer (gestionnaire de dépendances PHP)
+🔹 1. Installer PHP
 
-3. Installer le Laravel Installer avec la commande :
-   composer global require laravel/installer
+* Va sur le site officiel : https://www.php.net/downloads
+* Télécharge la version PHP 8.1 ou plus
+* Installe-le
+* Vérifie dans le terminal :
+  php -v
 
-4. Installer un outil frontend :
+👉 Si ça affiche une version, c’est bon.
 
-   * soit Node.js + npm
-   * soit Bun
+---
 
-Ensuite, pour créer ton projet Laravel :
+🔹 2. Installer Composer
 
-* lance : laravel new mon-app
-* entre dans le dossier : cd mon-app
-* installe les dépendances : composer install
-* installe les packages frontend : npm install (ou bun install)
-* lance le projet : php artisan serve
+* Va sur : https://getcomposer.org/download/
+* Télécharge et installe Composer
+* Vérifie :
+  composer -V
 
-Puis ouvre dans ton navigateur : http://127.0.0.1:8000
+---
 
-Si tu bloques quelque part, dis-moi 👍
+🔹 3. Installer Laravel Installer
+Dans le terminal, tape :
+composer global require laravel/installer
+
+👉 Ensuite ajoute Composer au PATH si nécessaire (important sur Windows).
+
+Vérifie :
+laravel -v
+
+---
+
+🔹 4. Installer Node.js (recommandé)
+
+* Va sur : https://nodejs.org
+* Télécharge la version LTS
+* Installe-le
+
+Vérifie :
+node -v
+npm -v
+
+---
+
+🔹 5. Créer ton projet Laravel
+Dans le terminal :
+
+laravel new mon-app
+cd mon-app
+
+---
+
+🔹 6. Installer les dépendances
+composer install
+npm install
+
+---
+
+🔹 7. Lancer le projet
+npm run dev
+php artisan serve
+
+---
+
+🔹 8. Ouvrir dans le navigateur
+Tape :
+http://127.0.0.1:8000
+
+---
+
+💡 Important :
+
+* Si une commande ne marche pas, redémarre le terminal
+* Vérifie toujours que les versions sont installées
+* Sur Windows, tu peux utiliser XAMPP pour simplifier
+
+Si tu as un problème, envoie-moi une capture 👍
+
 
 # PhPMydamin + SQL + Wamp Sevrer
 
