@@ -1,7 +1,7 @@
 This is Hospital Management System  (SGIH)
 # Installation de Laravel
 Salut Hamed Issiaka, Adama Sangare ...
-
+    
 Avant de créer ta première application Laravel, assure-toi d’installer les éléments suivants sur ta machine :
 
 
