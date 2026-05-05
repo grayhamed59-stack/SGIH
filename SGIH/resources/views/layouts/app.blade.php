@@ -12,25 +12,46 @@
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
         <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
-            @include('layouts.navigation')
+    <body class="font-sans antialiased text-gray-900 bg-gray-50">
+        <div class="flex h-screen overflow-hidden">
+            <!-- Sidebar -->
+            @include('layouts.sidebar')
 
-            <!-- Page Heading -->
-            @isset($header)
-                <header class="bg-white dark:bg-gray-800 shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endisset
+            <!-- Main Content Area -->
+            <div class="flex-1 flex flex-col overflow-hidden">
+                @include('layouts.navigation')
 
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
+                <!-- Page Content -->
+                <main class="flex-1 overflow-y-auto p-8">
+                    <!-- Flash Messages -->
+                    @if(session('success'))
+                        <div class="mb-6 p-4 bg-green-50 border border-green-200 text-green-600 rounded-2xl font-bold animate-in fade-in slide-in-from-top-4 duration-500">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+                    @if(session('info'))
+                        <div class="mb-6 p-4 bg-blue-50 border border-blue-200 text-blue-600 rounded-2xl font-bold animate-in fade-in slide-in-from-top-4 duration-500">
+                            {{ session('info') }}
+                        </div>
+                    @endif
+                    @if(session('warning'))
+                        <div class="mb-6 p-4 bg-orange-50 border border-orange-200 text-orange-600 rounded-2xl font-bold animate-in fade-in slide-in-from-top-4 duration-500">
+                            {{ session('warning') }}
+                        </div>
+                    @endif
+
+                    @isset($header)
+                        <div class="mb-8">
+                            {{ $header }}
+                        </div>
+                    @endisset
+
+                    {{ $slot }}
+                </main>
+            </div>
         </div>
     </body>
 </html>

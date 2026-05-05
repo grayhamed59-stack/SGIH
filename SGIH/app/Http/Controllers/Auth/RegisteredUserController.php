@@ -34,17 +34,39 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'access_code' => ['required', 'string'],
         ]);
+
+        $invitation = \App\Models\Invitation::where('code', strtoupper($request->access_code))
+            ->whereNull('used_at')
+            ->where('expires_at', '>', now())
+            ->first();
+
+        if (!$invitation) {
+            throw ValidationException::withMessages([
+                'access_code' => "Le code d'accès est invalide, déjà utilisé ou expiré.",
+            ]);
+        }
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'role' => $invitation->role,
         ]);
+
+        // Mark invitation as used
+        $invitation->update(['used_at' => now()]);
 
         event(new Registered($user));
 
         Auth::login($user);
+
+        if ($user->role === 'superadmin') {
+            return redirect(route('superadmin.dashboard', absolute: false));
+        } elseif ($user->role === 'doctor') {
+            return redirect(route('doctor.dashboard', absolute: false));
+        }
 
         return redirect(route('dashboard', absolute: false));
     }

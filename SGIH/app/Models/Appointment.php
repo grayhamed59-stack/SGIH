@@ -15,6 +15,7 @@ class Appointment extends Model
         'appointment_date',
         'status',
         'reason',
+        'cancel_reason'
     ];
 
     public function patient()

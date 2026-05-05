@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('gender');
             $table->string('phone')->nullable();
             $table->text('address')->nullable();
+            $table->string('status')->default('En attente');
             $table->timestamps();
         });
     }
