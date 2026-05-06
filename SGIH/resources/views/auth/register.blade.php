@@ -11,79 +11,76 @@
     </style>
 </head>
 
-<body x-data="{ loading: false }" class="bg-gray-50 text-gray-900 min-h-screen flex items-center justify-center p-6">
+<body x-data="{ loading: false }" class="bg-slate-900 min-h-screen relative overflow-hidden flex items-center justify-start p-4 md:p-0">
 
     <!-- Loading Overlay -->
-    <div x-show="loading" 
-         x-transition:enter="transition ease-out duration-300"
-         x-transition:enter-start="opacity-0"
-         x-transition:enter-end="opacity-100"
-         style="display: none;"
-         class="fixed inset-0 z-[100] bg-white/80 backdrop-blur-md flex flex-col items-center justify-center">
-        <div class="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-        <p class="mt-4 text-blue-600 font-bold text-sm uppercase tracking-widest animate-pulse">Création du profil sécurisé...</p>
+    ...
+    <!-- Background Image with Overlay -->
+    <div class="absolute inset-0 z-0">
+        <img src="{{ asset('images/hospital_bg.png') }}" class="w-full h-full object-cover object-right md:object-center" alt="Hospital background">
+        <div class="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/60 to-transparent"></div>
     </div>
 
-    <div class="max-w-md w-full animate-in fade-in slide-in-from-bottom-4 duration-500">
+    <div class="relative z-10 max-w-md w-full md:ml-20 lg:ml-32 animate-in fade-in slide-in-from-bottom-4 duration-500 py-10">
         <!-- Header -->
         <div class="text-center mb-8">
-            <h2 class="text-2xl font-extrabold tracking-tight text-gray-900">Nouveau Collaborateur</h2>
-            <p class="text-sm text-gray-500 mt-1">Créez votre compte grâce au code d'invitation.</p>
+            <h2 class="text-3xl font-black tracking-tight text-white uppercase tracking-widest">SGIH <span class="text-blue-400">HospiCare</span></h2>
+            <p class="text-sm text-slate-300 font-medium mt-1">Enregistrement Nouveau Collaborateur</p>
         </div>
 
-        <!-- Card -->
-        <div class="bg-white p-8 rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100">
+        <!-- Glass Card -->
+        <div class="bg-white/5 backdrop-blur-2xl border border-white/10 p-8 rounded-[2.5rem] shadow-[0_32px_64px_-15px_rgba(0,0,0,0.5)]">
             <form method="POST" action="{{ route('register') }}" class="space-y-6" @submit="loading = true">
                 @csrf
 
                 <!-- Access Code -->
-                <div class="p-4 bg-blue-50 border border-blue-100 rounded-2xl">
-                    <label for="access_code" class="block text-xs font-bold uppercase tracking-widest text-blue-800 mb-2">Clé d'Accès Sécurisée</label>
-                    <input id="access_code" type="text" name="access_code" value="{{ old('access_code') }}" required autofocus class="block w-full border-blue-300 focus:border-blue-600 focus:ring-blue-600 rounded-xl shadow-sm text-blue-900 font-mono tracking-widest text-center text-lg uppercase bg-white placeholder-blue-200" placeholder="XXXX-XXXX">
-                    <x-input-error :messages="$errors->get('access_code')" class="mt-2 text-red-500 text-sm font-bold text-center" />
+                <div class="p-4 bg-blue-600/10 border border-blue-500/20 rounded-2xl">
+                    <label for="access_code" class="block text-[10px] font-black uppercase tracking-[0.2em] text-blue-400 mb-2 text-center">Clé d'Accès Sécurisée</label>
+                    <input id="access_code" type="text" name="access_code" value="{{ old('access_code') }}" required autofocus class="block w-full bg-white/5 border-white/10 focus:border-blue-500 focus:ring-blue-500 rounded-xl shadow-sm text-blue-400 font-mono tracking-[0.3em] text-center text-lg uppercase placeholder-blue-900" placeholder="XXXX-XXXX">
+                    <x-input-error :messages="$errors->get('access_code')" class="mt-2 text-red-400 text-xs font-bold text-center" />
                 </div>
 
                 <!-- Name -->
                 <div>
-                    <label for="name" class="block text-sm font-bold text-gray-700 mb-2">Nom Complet</label>
-                    <input id="name" type="text" name="name" value="{{ old('name') }}" required autocomplete="name" class="block w-full border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded-xl shadow-sm text-gray-900">
-                    <x-input-error :messages="$errors->get('name')" class="mt-2 text-red-500 text-sm" />
+                    <label for="name" class="block text-xs font-black text-blue-400 uppercase tracking-widest mb-2 ml-1">Nom Complet</label>
+                    <input id="name" type="text" name="name" value="{{ old('name') }}" required autocomplete="name" class="block w-full bg-white/5 border-white/10 focus:border-blue-500 focus:ring-blue-500 rounded-2xl shadow-sm text-white py-3">
+                    <x-input-error :messages="$errors->get('name')" class="mt-2 text-red-400 text-xs font-bold" />
                 </div>
 
                 <!-- Email Address -->
                 <div>
-                    <label for="email" class="block text-sm font-bold text-gray-700 mb-2">Adresse Email</label>
-                    <input id="email" type="email" name="email" value="{{ old('email') }}" required autocomplete="username" class="block w-full border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded-xl shadow-sm text-gray-900">
-                    <x-input-error :messages="$errors->get('email')" class="mt-2 text-red-500 text-sm" />
+                    <label for="email" class="block text-xs font-black text-blue-400 uppercase tracking-widest mb-2 ml-1">Adresse Email Professionnelle</label>
+                    <input id="email" type="email" name="email" value="{{ old('email') }}" required autocomplete="username" class="block w-full bg-white/5 border-white/10 focus:border-blue-500 focus:ring-blue-500 rounded-2xl shadow-sm text-white py-3">
+                    <x-input-error :messages="$errors->get('email')" class="mt-2 text-red-400 text-xs font-bold" />
                 </div>
 
                 <!-- Password -->
-                <div>
-                    <label for="password" class="block text-sm font-bold text-gray-700 mb-2">Mot de passe</label>
-                    <input id="password" type="password" name="password" required autocomplete="new-password" class="block w-full border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded-xl shadow-sm text-gray-900">
-                    <x-input-error :messages="$errors->get('password')" class="mt-2 text-red-500 text-sm" />
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label for="password" class="block text-[10px] font-black text-blue-400 uppercase tracking-widest mb-2 ml-1">Mot de passe</label>
+                        <input id="password" type="password" name="password" required autocomplete="new-password" class="block w-full bg-white/5 border-white/10 focus:border-blue-500 focus:ring-blue-500 rounded-2xl shadow-sm text-white py-3">
+                    </div>
+                    <div>
+                        <label for="password_confirmation" class="block text-[10px] font-black text-blue-400 uppercase tracking-widest mb-2 ml-1">Confirmation</label>
+                        <input id="password_confirmation" type="password" name="password_confirmation" required autocomplete="new-password" class="block w-full bg-white/5 border-white/10 focus:border-blue-500 focus:ring-blue-500 rounded-2xl shadow-sm text-white py-3">
+                    </div>
                 </div>
+                <x-input-error :messages="$errors->get('password')" class="mt-2 text-red-400 text-xs font-bold" />
+                <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2 text-red-400 text-xs font-bold" />
 
-                <!-- Confirm Password -->
-                <div>
-                    <label for="password_confirmation" class="block text-sm font-bold text-gray-700 mb-2">Confirmer mot de passe</label>
-                    <input id="password_confirmation" type="password" name="password_confirmation" required autocomplete="new-password" class="block w-full border-gray-300 focus:border-blue-500 focus:ring-blue-500 rounded-xl shadow-sm text-gray-900">
-                    <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2 text-red-500 text-sm" />
-                </div>
-
-                <div class="pt-4 border-t border-gray-100 flex items-center justify-between">
-                    <a @click="loading = true" class="text-sm font-bold text-blue-600 hover:text-blue-800 transition-colors" href="{{ route('login') }}">
+                <div class="pt-4 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <a @click="loading = true" class="text-xs font-bold text-slate-400 hover:text-white transition-colors uppercase tracking-widest" href="{{ route('login') }}">
                         Déjà inscrit ?
                     </a>
-                    <button type="submit" class="bg-gray-900 text-white px-6 py-3 rounded-xl font-bold shadow-lg hover:bg-gray-800 transition transform hover:-translate-y-0.5 active:scale-95">
-                        Valider l'inscription
+                    <button type="submit" class="w-full sm:w-auto bg-blue-600 text-white px-8 py-3.5 rounded-2xl font-black shadow-lg hover:bg-blue-500 transition-all hover:scale-[1.02] active:scale-95 uppercase tracking-widest">
+                        S'enregistrer
                     </button>
                 </div>
             </form>
         </div>
         
-        <p class="text-center text-xs text-gray-400 font-bold uppercase tracking-widest mt-8">
-            &copy; 2026 SGIH HospiCare
+        <p class="text-center text-[10px] text-slate-500 font-black uppercase tracking-[0.4em] mt-10">
+            &copy; 2026 SGIH HospiCare SYSTEM
         </p>
     </div>
 

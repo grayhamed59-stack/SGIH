@@ -6,10 +6,10 @@
                 <p class="text-sm text-gray-500">Bienvenue dans votre interface de gestion hospitalière.</p>
             </div>
             <div class="flex space-x-3">
-                <button class="bg-white border text-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition shadow-sm flex items-center">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+                <a href="{{ route('patients.export') }}" class="bg-white border text-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition shadow-sm flex items-center">
+                    <svg class="w-4 h-4 mr-2 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
                     Exporter
-                </button>
+                </a>
                 <a href="{{ route('patients.index') }}" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition shadow-md flex items-center">
                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
                     Nouveau patient
@@ -117,10 +117,10 @@
                             </td>
                             <td class="px-6 py-4 text-right space-x-2">
                                 <a href="{{ route('patients.edit', $patient) }}?from_dashboard=1" class="text-blue-600 hover:text-blue-800 font-bold text-xs uppercase">Éditer</a>
-                                <form action="{{ route('patients.destroy', $patient) }}" method="POST" class="inline" onsubmit="return confirm('Supprimer ce patient ?')">
+                                <form action="{{ route('patients.destroy', $patient) }}" method="POST" class="inline" onsubmit="return confirm('Archiver ce dossier patient ?')">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="text-red-500 hover:text-red-700 font-bold text-xs uppercase">Supprimer</button>
+                                    <button type="submit" class="text-red-500 hover:text-red-700 font-bold text-xs uppercase">Archiver</button>
                                 </form>
                             </td>
                         </tr>

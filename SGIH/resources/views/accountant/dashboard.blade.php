@@ -80,9 +80,18 @@
                             </td>
                             <td class="px-6 py-4 text-right">
                                 @if($payment->status === 'pending')
-                                <button class="text-sm font-bold text-indigo-600 hover:text-indigo-800">Encaisser</button>
+                                <form action="{{ route('accountant.payments.paid', $payment) }}" method="POST">
+                                    @csrf
+                                    @method('PUT')
+                                    <button type="submit" class="text-sm font-bold text-indigo-600 hover:text-indigo-800 bg-indigo-50 px-3 py-1 rounded-lg transition">
+                                        Encaisser
+                                    </button>
+                                </form>
                                 @else
-                                <button class="text-sm font-bold text-gray-400 hover:text-gray-600">Reçu</button>
+                                <div class="flex items-center justify-end text-green-600">
+                                    <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                                    <span class="text-sm font-bold">Reçu</span>
+                                </div>
                                 @endif
                             </td>
                         </tr>

@@ -48,14 +48,8 @@ Route::middleware('auth')->group(function () {
     })->name('doctor.dashboard');
 
     // Interface Comptable
-    Route::get('/accountant/dashboard', function () {
-        if (!in_array(Auth::user()->role, ['accountant', 'superadmin'])) { abort(403); }
-        return view('accountant.dashboard', [
-            'payments' => \App\Models\Payment::with('patient')->orderBy('created_at', 'desc')->get(),
-            'totalRevenue' => \App\Models\Payment::where('status', 'paid')->sum('amount'),
-            'pendingRevenue' => \App\Models\Payment::where('status', 'pending')->sum('amount'),
-        ]);
-    })->name('accountant.dashboard');
+    Route::get('/accountant/dashboard', [\App\Http\Controllers\AccountantController::class, 'dashboard'])->name('accountant.dashboard');
+    Route::put('/accountant/payments/{payment}/paid', [\App\Http\Controllers\AccountantController::class, 'markAsPaid'])->name('accountant.payments.paid');
 
     // Système d'invitations (Réservé aux admins)
     Route::get('/admin/invitations', [\App\Http\Controllers\Admin\InvitationController::class, 'index'])->name('admin.invitations.index');
