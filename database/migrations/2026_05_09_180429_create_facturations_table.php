@@ -11,8 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('facturations', function (Blueprint $table) {
+        Schema::create('factures', function (Blueprint $table) {
             $table->id();
+            $table->string('reference')->unique();
+            $table->foreignId('patient_id')->constrained('patients')->onDelete('cascade');
+            $table->decimal('montant_total', 10, 2);
+            $table->decimal('montant_patient', 10, 2);
+            $table->decimal('montant_assurance', 10, 2)->default(0);
+            $table->string('statut')->default('en_attente');
+            $table->date('date_facture');
             $table->timestamps();
         });
     }
