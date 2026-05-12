@@ -10,17 +10,24 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-    {
-        Schema::create('consultations', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('appointment_id')->constrained()->onDelete('cascade');
-            $table->text('symptoms')->nullable();
-            $table->text('diagnosis')->nullable();
-            $table->text('prescription')->nullable();
-            $table->text('notes')->nullable();
-            $table->timestamps();
-        });
-    }
+{
+    Schema::create('consultations', function (Blueprint $table) {
+        $table->id();
+        $table->foreignId('appointment_id')->constrained('appointments')->onDelete('cascade');
+        $table->foreignId('doctor_id')->constrained('doctors')->onDelete('cascade');
+        $table->foreignId('patient_id')->constrained('patients')->onDelete('cascade');
+        $table->string('weight')->nullable(); 
+        $table->string('temperature')->nullable();
+        $table->string('blood_pressure')->nullable();
+        $table->text('symptoms'); 
+        $table->text('diagnosis'); 
+        $table->text('prescription')->nullable();
+        $table->text('notes_privees')->nullable(); 
+        $table->date('next_visit_date')->nullable(); 
+        
+        $table->timestamps();
+    });
+}
 
     /**
      * Reverse the migrations.

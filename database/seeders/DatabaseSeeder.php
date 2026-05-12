@@ -24,6 +24,27 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('password'),
         ]);
 
+        // Au lieu de User::create([...])
+        \App\Models\User::updateOrCreate(
+        ['email' => 'admin@sgih.com'], // Condition de recherche
+        [
+            'name' => 'Admin SGIH',
+            'password' => bcrypt('password'),
+        ]
+);
+
+        \App\Models\Patient::factory(50)->create();
+        \App\Models\Employee::factory(15)->create();
+        // On crée aussi quelques RDV pour aujourd'hui
+        \App\Models\Appointment::create([
+            'patient_id' => 1,
+            'medecin_id' => 1,
+            'date_rdv' => now(),
+            'heure_debut' => '09:00',
+            'heure_fin' => '10:00',
+            'statut' => 'en_attente'
+        ]);
+
         // Sample Doctors
         $doctor = Doctor::create([
             'last_name' => 'Koffi',
