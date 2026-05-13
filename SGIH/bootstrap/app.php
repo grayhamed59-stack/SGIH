@@ -11,7 +11,14 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        // Register role-based access control middleware
+        $middleware->alias([
+            'role'            => \App\Http\Middleware\RoleMiddleware::class,
+            'force.password'  => \App\Http\Middleware\ForcePasswordChange::class,
+        ]);
+
+        // Apply force password change check globally on authenticated web routes
+        $middleware->appendToGroup('web', \App\Http\Middleware\ForcePasswordChange::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

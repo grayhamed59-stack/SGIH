@@ -21,24 +21,23 @@ class AuthenticatedSessionController extends Controller
 
     /**
      * Handle an incoming authentication request.
+     * After login, redirect to the role-specific dashboard.
      */
     public function store(LoginRequest $request): RedirectResponse
     {
         $request->authenticate();
-
         $request->session()->regenerate();
 
-        $role = $request->user()->role;
+        $user = $request->user();
 
-        if ($role === 'superadmin') {
-            return redirect()->intended(route('superadmin.dashboard', absolute: false));
-        } elseif ($role === 'doctor') {
-            return redirect()->intended(route('doctor.dashboard', absolute: false));
-        } elseif ($role === 'accountant') {
-            return redirect()->intended(route('accountant.dashboard', absolute: false));
+        // If the account has a temporary OTP password to change
+        if ($user->must_change_password) {
+            return redirect()->route('password.change')
+                ->with('info', 'Bienvenue ! Veuillez définir votre mot de passe sécurisé pour accéder à votre espace.');
         }
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        // Role-based redirect using the User model helper
+        return redirect()->intended(route($user->dashboardRoute(), absolute: false));
     }
 
     /**
@@ -49,7 +48,6 @@ class AuthenticatedSessionController extends Controller
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();
-
         $request->session()->regenerateToken();
 
         return redirect('/');

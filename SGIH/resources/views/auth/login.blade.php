@@ -14,7 +14,16 @@
 <body x-data="{ loading: false }" class="bg-slate-900 min-h-screen relative overflow-hidden flex items-center justify-start p-4 md:p-0">
 
     <!-- Loading Overlay -->
-    ...
+    <div x-show="loading" 
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         style="display: none;"
+         class="fixed inset-0 z-[100] bg-slate-950/95 backdrop-blur-xl flex flex-col items-center justify-center">
+        <div class="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+        <p class="mt-4 text-blue-400 font-bold text-sm uppercase tracking-widest animate-pulse">Vérification sécurisée...</p>
+    </div>
+
     <!-- Background Image with Overlay -->
     <div class="absolute inset-0 z-0">
         <img src="{{ asset('images/hospital_bg.png') }}" class="w-full h-full object-cover object-right md:object-center" alt="Hospital background">

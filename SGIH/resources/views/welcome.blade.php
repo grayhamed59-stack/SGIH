@@ -14,7 +14,32 @@
 <body x-data="{ loading: false }" class="bg-slate-900 min-h-screen relative overflow-hidden flex items-center justify-start p-4 md:p-0">
 
     <!-- Loading Overlay -->
-    ...
+    <div x-show="loading" 
+         x-transition:enter="transition ease-out duration-500"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         style="display: none;"
+         class="fixed inset-0 z-[100] bg-slate-950/95 backdrop-blur-2xl flex flex-col items-center justify-center">
+        <div class="relative">
+            <div class="absolute inset-0 w-32 h-32 bg-blue-500/20 rounded-full blur-2xl animate-pulse -translate-x-4 -translate-y-4"></div>
+            <div class="relative w-24 h-24">
+                <svg class="w-full h-full animate-spin text-blue-500" viewBox="0 0 100 100">
+                    <circle class="opacity-10" cx="50" cy="50" r="40" stroke="currentColor" stroke-width="8" fill="none" />
+                    <path class="opacity-75" fill="currentColor" d="M4 50a46 46 0 0 1 46-46v8a38 38 0 0 0-38 38H4z" />
+                </svg>
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <svg class="w-8 h-8 text-white animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+        <div class="mt-8 text-center">
+            <h3 class="text-white font-black text-xl uppercase tracking-[0.3em] mb-2">SGIH HospiCare</h3>
+            <p class="text-blue-400 font-bold text-xs uppercase tracking-widest animate-pulse">Chargement de l'environnement sécurisé...</p>
+        </div>
+    </div>
+
     <!-- Background Image with Overlay -->
     <div class="absolute inset-0 z-0">
         <img src="{{ asset('images/hospital_bg.png') }}" class="w-full h-full object-cover object-right md:object-center" alt="Hospital background">
