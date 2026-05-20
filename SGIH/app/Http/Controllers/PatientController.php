@@ -78,39 +78,61 @@ class PatientController extends Controller
         return redirect()->back()->with('warning', 'Dossier patient archivé avec succès.');
     }
 
-    public function export()
+    public function export(Request $request)
     {
-        $patients = Patient::all();
-        $csvFileName = 'patients_export_' . now()->format('Y_m_d') . '.csv';
-        $headers = [
-            "Content-type"        => "text/csv",
-            "Content-Disposition" => "attachment; filename=$csvFileName",
-            "Pragma"              => "no-cache",
-            "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
-            "Expires"             => "0"
-        ];
+        $query = Patient::query();
 
-        $handle = fopen('php://output', 'w');
-        // Add UTF-8 BOM for Excel compatibility
-        fputs($handle, chr(0xEF) . chr(0xBB) . chr(0xBF));
-        fputcsv($handle, ['ID', 'Nom', 'Prénom', 'Date de Naissance', 'Genre', 'Téléphone', 'Statut', 'Date Enregistrement'], ';');
-
-        foreach ($patients as $patient) {
-            fputcsv($handle, [
-                $patient->id,
-                $patient->last_name,
-                $patient->first_name,
-                $patient->birth_date,
-                $patient->gender,
-                $patient->phone,
-                $patient->status,
-                $patient->created_at->format('Y-m-d H:i')
-            ], ';');
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('first_name', 'like', '%' . $search . '%')
+                    ->orWhere('last_name', 'like', '%' . $search . '%')
+                    ->orWhere('phone', 'like', '%' . $search . '%');
+            });
         }
 
-        fclose($handle);
+        $patients = $query->orderBy('created_at', 'desc')->get();
+        $fileName = 'patients_sgih_' . now()->format('Y-m-d_His') . '.csv';
 
-        return response()->stream(function() {}, 200, $headers);
+        return response()->streamDownload(function () use ($patients) {
+            $handle = fopen('php://output', 'w');
+
+            // UTF-8 BOM so Excel opens accents and French characters correctly
+            fwrite($handle, "\xEF\xBB\xBF");
+
+            fputcsv($handle, [
+                'ID',
+                'Nom',
+                'Prénom',
+                'Date de naissance',
+                'Genre',
+                'Téléphone',
+                'Adresse',
+                'Statut',
+                'Date enregistrement',
+            ], ';');
+
+            foreach ($patients as $patient) {
+                fputcsv($handle, [
+                    $patient->id,
+                    $patient->last_name,
+                    $patient->first_name,
+                    $patient->birth_date
+                        ? \Illuminate\Support\Carbon::parse($patient->birth_date)->format('d/m/Y')
+                        : '',
+                    $patient->gender,
+                    $patient->phone ?? '',
+                    $patient->address ?? '',
+                    $patient->status ?? '',
+                    $patient->created_at?->format('d/m/Y H:i') ?? '',
+                ], ';');
+            }
+
+            fclose($handle);
+        }, $fileName, [
+            'Content-Type' => 'text/csv; charset=UTF-8',
+            'Content-Disposition' => 'attachment; filename="' . $fileName . '"',
+        ]);
     }
 }
 

@@ -1,58 +1,270 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# SGIH — Système de Gestion Intégré Hospitalier
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+**SGIH** (*Système de Gestion Intégré Hospitalier*) is a web-based hospital management application built with [Laravel](https://laravel.com). It helps clinics and hospitals in Mali manage patients, appointments, billing, staff roles, and invitations — with a modern French-language interface.
 
-## About Laravel
+Repository: [github.com/grayhamed59-stack/SGIH](https://github.com/grayhamed59-stack/SGIH/tree/main/SGIH)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Table of contents
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- [Features](#features)
+- [Tech stack](#tech-stack)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Demo accounts](#demo-accounts)
+- [Usage by role](#usage-by-role)
+- [Project structure](#project-structure)
+- [Useful commands](#useful-commands)
+- [Troubleshooting](#troubleshooting)
+- [Contributing](#contributing)
+- [License](#license)
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Features
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+| Module | Description |
+|--------|-------------|
+| **Patients** | Create, edit, export, and track patient records |
+| **Appointments** | Schedule and cancel appointments with reasons |
+| **Doctors** | Doctor profiles and specialties |
+| **Payments** | Billing and payment status (comptabilité) |
+| **Invitations** | Superadmin generates access codes for new staff |
+| **OTP login** | First-time login via one-time code, then password change |
+| **Role dashboards** | Tailored views for direction, médecin, comptable, réception |
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+---
 
-## Agentic Development
+## Tech stack
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+- **Backend:** PHP 8.3+, Laravel 13
+- **Frontend:** Blade, Tailwind CSS, Vite, Alpine.js
+- **Auth:** Laravel Breeze (session-based)
+- **Database:** MySQL (recommended) or SQLite
+- **Testing:** Pest PHP
+
+---
+
+## Requirements
+
+Before you start, install:
+
+| Tool | Version | Check |
+|------|---------|-------|
+| PHP | 8.3+ | `php -v` |
+| Composer | 2.x | `composer -V` |
+| Node.js | 18+ LTS | `node -v` |
+| MySQL | 8.0+ or MariaDB | running on port 3306 |
+
+Optional: [XAMPP](https://www.apachefriends.org/) / WAMP / phpMyAdmin for local MySQL on Windows.
+
+---
+
+## Installation
+
+### 1. Clone the repository
 
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+git clone https://github.com/grayhamed59-stack/SGIH.git
+cd SGIH/SGIH
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+> The Laravel application lives in the **`SGIH/`** subfolder of the repo root.
+
+### 2. Install dependencies
+
+```bash
+composer install
+npm install
+```
+
+### 3. Environment configuration
+
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+Edit `.env` and set your database (MySQL example):
+
+```env
+APP_NAME=SGIH
+APP_URL=http://127.0.0.1:8000
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=sgih
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+Create the database in MySQL:
+
+```sql
+CREATE DATABASE sgih CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
+
+### 4. Migrate and seed demo data
+
+```bash
+php artisan migrate --seed
+```
+
+This creates tables and four demo staff accounts (see below).
+
+### 5. Build assets and run
+
+**Terminal 1 — Vite (CSS/JS):**
+
+```bash
+npm run dev
+```
+
+**Terminal 2 — Laravel server:**
+
+```bash
+php artisan serve
+```
+
+Open **[http://127.0.0.1:8000](http://127.0.0.1:8000)** in your browser.
+
+---
+
+## Demo accounts
+
+After `php artisan migrate --seed`, use these credentials on the login page (`/login`):
+
+| Role | Name | Email | Password |
+|------|------|-------|----------|
+| **Superadmin** (Direction générale) | Direction Générale | `direction@sgih.com` | `password` |
+| **Accountant** (Comptabilité) | Service Comptabilité | `compta@sgih.com` | `password` |
+| **Admin / Réception** | Réception Accueil | `reception@sgih.com` | `password` |
+| **Doctor** | Dr. Mohamed Diarra | `medecin@sgih.com` | `password` |
+
+> **Security:** These passwords are for **local development only**. Change them before deploying to production.
+
+The seeder also loads sample doctors, patients, appointments, and payments (Mali-themed demo data).
+
+---
+
+## Usage by role
+
+### Superadmin — `direction@sgih.com`
+
+- Dashboard: `/superadmin/dashboard`
+- Global overview: patients, doctors, revenue, cancellations
+- Manage invitation codes: `/admin/invitations`
+- Full access to patient management
+
+### Accountant — `compta@sgih.com`
+
+- Dashboard: `/accountant/dashboard`
+- View and mark payments as paid
+
+### Reception — `reception@sgih.com`
+
+- Main dashboard: `/dashboard`
+- Patient CRUD: `/patients`
+- Export patients: `/patients/export`
+
+### Doctor — `medecin@sgih.com`
+
+- Dashboard: `/doctor/dashboard`
+- View appointments linked to patients
+
+### Registering new staff
+
+1. Superadmin creates an invitation code at **Admin → Invitations**.
+2. New user registers at `/register` with the code.
+3. First login may use **OTP** (`/login/otp`), then set a personal password.
+
+---
+
+## Project structure
+
+```
+SGIH/
+├── app/
+│   ├── Http/Controllers/   # Auth, patients, appointments, roles…
+│   ├── Http/Middleware/    # RoleMiddleware, ForcePasswordChange
+│   └── Models/             # User, Patient, Doctor, Appointment, Payment…
+├── database/
+│   ├── migrations/
+│   └── seeders/            # DatabaseSeeder.php (demo accounts)
+├── resources/views/        # Blade templates (dashboards, auth, patients)
+├── routes/
+│   ├── web.php             # Main routes + role middleware
+│   └── auth.php            # Login, register, OTP, password reset
+├── public/                 # Web root (index.php, assets)
+├── .env.example
+└── README.md               # This file
+```
+
+---
+
+## Useful commands
+
+| Command | Purpose |
+|---------|---------|
+| `php artisan migrate` | Run database migrations |
+| `php artisan db:seed` | Load demo users and sample data |
+| `php artisan migrate:fresh --seed` | Reset DB and re-seed |
+| `php artisan serve` | Start dev server (port 8000) |
+| `npm run dev` | Watch and compile frontend assets |
+| `npm run build` | Production asset build |
+| `php artisan test` | Run Pest tests |
+
+---
+
+## Troubleshooting
+
+### `Invalid default value for 'expires_at'` (MySQL)
+
+If migrations fail on the `invitations` table, ensure you use the latest migration (column type `dateTime` instead of `timestamp`). Then:
+
+```bash
+php artisan migrate:fresh --seed
+```
+
+### Connection refused (MySQL)
+
+- Start MySQL (XAMPP, `sudo systemctl start mysql`, etc.)
+- Verify `DB_*` values in `.env` match your local server
+
+### Login works but wrong dashboard
+
+Each role is redirected automatically after login. Check the `role` column in the `users` table matches: `superadmin`, `accountant`, `doctor`, `admin`, or `receptionist`.
+
+### Assets not loading
+
+Run `npm run dev` or `npm run build` so Vite compiles CSS/JS.
+
+### Seeded users missing
+
+```bash
+php artisan db:seed
+```
+
+---
 
 ## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+1. Create a branch from `main` (avoid pushing directly to `main` if your team uses protected branches).
+2. Make your changes in the `SGIH/` app folder.
+3. Run tests: `php artisan test`
+4. Open a pull request on GitHub.
 
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project is open-source. See the [LICENSE](../LICENSE) file at the repository root.
+
+---
+
+<p align="center">
+  <strong>SGIH</strong> — Hospital Management System<br>
+  Built with Laravel · Demo context: Bamako, Mali
+</p>

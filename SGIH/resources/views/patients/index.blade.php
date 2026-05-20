@@ -6,7 +6,7 @@
                 <p class="text-sm text-gray-500">Consultez et suivez l'ensemble des patients enregistrés dans le système.</p>
             </div>
             <div class="flex space-x-3">
-                <a href="{{ route('patients.export') }}" class="bg-white border text-gray-700 px-4 py-2 rounded-lg text-sm font-bold hover:bg-gray-50 transition shadow-sm flex items-center">
+                <a href="{{ route('patients.export', request()->only('search')) }}" class="bg-white border text-gray-700 px-4 py-2 rounded-lg text-sm font-bold hover:bg-gray-50 transition shadow-sm flex items-center" download>
                     <svg class="w-4 h-4 mr-2 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
                     Exporter (CSV)
                 </a>
