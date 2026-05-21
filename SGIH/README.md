@@ -1,5 +1,5 @@
 # SGIH — Système de Gestion Intégré Hospitalier
-
+ 
 <p align="center">
   Application web de gestion hospitalière · Laravel 13 · Contexte démo : Bamako, Mali
 </p>
