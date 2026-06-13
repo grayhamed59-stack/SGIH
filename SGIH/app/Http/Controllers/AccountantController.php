@@ -1,3 +1,7 @@
+<?php
+
+namespace App\Http\Controllers;
+
 use App\Models\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -16,7 +20,10 @@ class AccountantController extends Controller
     public function markAsPaid(Payment $payment)
     {
         $payment->update(['status' => 'paid']);
-        return redirect()->back()->with('success', 'Le paiement de ' . number_format($payment->amount, 0, ',', ' ') . ' F a été encaissé avec succès.');
+
+        return redirect()->back()->with(
+            'success',
+            'Le paiement de ' . number_format($payment->amount, 0, ',', ' ') . ' F a été encaissé avec succès.'
+        );
     }
 }
-

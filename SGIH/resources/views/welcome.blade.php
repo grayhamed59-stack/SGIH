@@ -55,6 +55,14 @@
         <!-- Left Side: Branding & Hero Text -->
         <div class="w-full md:w-1/2 space-y-10 animate-in fade-in slide-in-from-left-10 duration-1000">
             <div class="space-y-6">
+                <div class="flex justify-center mb-6">
+    <img 
+        src="{{ asset('images/logo.png') }}" 
+        alt="Logo SGIH"
+        class="w-24 h-24 object-contain drop-shadow-[0_0_25px_rgba(59,130,246,0.6)] hover:scale-110 transition duration-500"
+    >
+</div>
+    
                 <div class="inline-block">
                     <span class="text-xs font-black text-blue-400 uppercase tracking-[0.4em] bg-blue-400/10 px-4 py-2 rounded-full mb-4 block">Intelligence Médicale Africaine</span>
                 </div>
