@@ -1,65 +1,54 @@
 
 <div style="text-align: center; margin-bottom: 40px;">
-    <img src="{{ asset('images/logo.png') }}" alt="Logo SGIH" width="90">
+    <img src="{{ asset('images/logo.png') }}"
+     alt="Logo SGIH"
+     width="200">
 </div>
+
+
 
 <x-app-layout>
     <x-slot name="header">
         <div class="flex items-center justify-between">
+            <div class="flex items-center">
+    <img src="{{ asset('images/logo.png') }}"
+     alt="Logo SGIH"
+     class="h-32 w-32 mr-4 object-contain">
 
-            <!-- LOGO + TITRE HEADER -->
-            <div class="flex items-center space-x-4">
+    <div>
+        <h1 class="text-2xl font-bold text-gray-800 tracking-tight">
+            Tableau de bord
+        </h1>
+        <p class="text-sm text-gray-500">
+            Bienvenue dans votre interface de gestion hospitalière.
+        </p>
+    </div>
+</div>
 
-                <!-- LOGO AJOUTÉ ICI -->
-                <img src="{{ asset('images/logo.png') }}"
-                     alt="Logo SGIH"
-                     class="h-10 w-10 object-contain">
-
-                <div>
-                    <h1 class="text-2xl font-bold text-gray-800 tracking-tight">
-                        Tableau de bord
-                    </h1>
-                    <p class="text-sm text-gray-500">
-                        Bienvenue dans votre interface de gestion hospitalière.
-                    </p>
-                </div>
-            </div>
-
-            <!-- ACTIONS -->
             <div class="flex space-x-3">
-                <a href="{{ route('patients.export') }}" class="bg-white border text-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition shadow-sm flex items-center" download>
-                    <svg class="w-4 h-4 mr-2 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+                <a href="{{ route('patients.export') }}"
+                   class="bg-white border text-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition shadow-sm flex items-center"
+                   download>
+                    <svg class="w-4 h-4 mr-2 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1m-4-8l-4-4m0 0L8 8m4-4v12">
+                        </path>
+                    </svg>
                     Exporter
                 </a>
 
-                <a href="{{ route('patients.index') }}" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition shadow-md flex items-center">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                <a href="{{ route('patients.index') }}"
+                   class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition shadow-md flex items-center">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M12 4v16m8-8H4">
+                        </path>
+                    </svg>
                     Nouveau patient
                 </a>
             </div>
         </div>
     </x-slot>
-
-    <!-- LE RESTE INCHANGÉ -->
-
-
-
-
-
-<x-app-layout>
-    <x-slot name="header">
-        <div class="flex items-center justify-between">
-            <div>
-                <h1 class="text-2xl font-bold text-gray-800 tracking-tight">Tableau de bord</h1>
-                <p class="text-sm text-gray-500">Bienvenue dans votre interface de gestion hospitalière.</p>
-            </div>
-            <div class="flex space-x-3">
-                <a href="{{ route('patients.export') }}" class="bg-white border text-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition shadow-sm flex items-center" download>
-                    <svg class="w-4 h-4 mr-2 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
-                    Exporter
-                </a>
-                <a href="{{ route('patients.index') }}" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition shadow-md flex items-center">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></p
 
     <div class="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
         <!-- Stats Cards Row -->
