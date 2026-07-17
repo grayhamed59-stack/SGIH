@@ -19,7 +19,7 @@
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900">
             <div>
                 <a href="/">
-                    <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
+                    <img src="{{ asset('images/SGIHLogo.svg') }}" alt="SGIH Logo" class="w-[400px] max-w-[90vw] h-auto mx-auto dark:invert dark:opacity-80 transition-all duration-300">
                 </a>
             </div>
 

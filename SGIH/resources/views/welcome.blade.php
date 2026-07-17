@@ -57,7 +57,7 @@
             <div class="space-y-6">
                 <div class="flex justify-center mb-6">
     <img 
-        src="{{ asset('images/logo.png') }}" 
+        src="{{ asset('images/SGIHlogo.svg') }}" 
         alt="Logo SGIH"
         class="w-24 h-24 object-contain drop-shadow-[0_0_25px_rgba(59,130,246,0.6)] hover:scale-110 transition duration-500"
     >
@@ -105,12 +105,12 @@
                                 <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
                             </a>
                         @else
-                            <a @click="loading = true" href="{{ route('login') }}" class="w-full bg-blue-600 text-white px-8 py-5 rounded-2xl font-black transition-all hover:scale-105 hover:shadow-[0_20px_50px_rgba(37,99,235,0.3)] active:scale-95 flex items-center justify-center">
+                            <a @click="loading = true" href="{{ route('login') }}" class="w-full bg-blue-600 text-white px-8 py-4 rounded-2xl font-black transition-all hover:scale-105 hover:shadow-[0_20px_50px_rgba(37,99,235,0.3)] active:scale-95 flex items-center justify-center">
                                 Connexion Staff
                                 <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg>
                             </a>
                             @if (Route::has('register'))
-                                <a @click="loading = true" href="{{ route('register') }}" class="w-full bg-white/5 border border-white/20 text-white px-8 py-4 rounded-2xl font-black hover:bg-white/10 transition-all hover:scale-105">
+                                <a @click="loading = true" href="{{ route('register') }}" class="w-full bg-white/5 border border-white/20 text-white px-8 py-4 rounded-2xl font-black hover:bg-white/10 transition-all hover:scale-105 flex items-center justify-center">
                                     Inscription
                                 </a>
                             @endif

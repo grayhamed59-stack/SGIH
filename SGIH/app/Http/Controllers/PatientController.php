@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Patient;
+use App\Models\LabRequest;
+use App\Models\Admission;
+use App\Models\Appointment;
+use App\Models\Payment;
 use Illuminate\Http\Request;
 
 class PatientController extends Controller
@@ -11,17 +15,23 @@ class PatientController extends Controller
     {
         $query = Patient::query();
 
-        if ($request->has('search') && $request->search != '') {
-            $search = $request->search;
-            $query->where(function($q) use ($search) {
-                $q->where('first_name', 'like', '%' . $search . '%')
-                  ->orWhere('last_name', 'like', '%' . $search . '%')
-                  ->orWhere('phone', 'like', '%' . $search . '%');
+        if ($request->filled('search')) {
+            $searchTerm = '%' . $request->search . '%';
+            $query->where(function($q) use ($searchTerm) {
+                $q->where('first_name', 'like', $searchTerm)
+                  ->orWhere('last_name', 'like', $searchTerm)
+                  ->orWhere('phone', 'like', $searchTerm);
             });
         }
 
-        $patients = $query->orderBy('created_at', 'desc')->get();
-        return view('patients.index', compact('patients'));
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        $patients = $query->orderBy('created_at', 'desc')->paginate(10)->withQueryString();
+        $doctors = \App\Models\Doctor::all();
+
+        return view('patients.index', compact('patients', 'doctors'));
     }
 
     public function create()
@@ -134,5 +144,74 @@ class PatientController extends Controller
             'Content-Disposition' => 'attachment; filename="' . $fileName . '"',
         ]);
     }
-}
 
+    public function storeLabRequest(Request $request)
+    {
+        $validated = $request->validate([
+            'patient_id' => 'required|exists:patients,id',
+            'test_type' => 'required|string|max:255',
+            'notes' => 'nullable|string|max:1000',
+        ]);
+
+        LabRequest::create($validated);
+
+        return redirect()->route('patients.index')->with('success', "Demande d'analyse (" . $validated['test_type'] . ") envoyée au laboratoire avec succès.");
+    }
+
+    public function storeAdmission(Request $request)
+    {
+        $validated = $request->validate([
+            'patient_id' => 'required|exists:patients,id',
+            'room_number' => 'nullable|string|max:20',
+            'reason' => 'required|string|max:1000',
+        ]);
+
+        Admission::create($validated);
+        
+        // Update patient status to Hospitalisé
+        Patient::where('id', $validated['patient_id'])->update(['status' => 'Hospitalisé']);
+
+        return redirect()->route('patients.index')
+            ->with('success', 'Le dossier d\'hospitalisation a été créé avec succès.');
+    }
+
+    public function storeAppointment(Request $request)
+    {
+        $request->validate([
+            'patient_id' => 'required|exists:patients,id',
+            'doctor_id'  => 'required|exists:doctors,id',
+            'appointment_date' => 'required|date',
+            'reason'     => 'nullable|string|max:1000',
+            'amount'     => 'required|numeric|min:1',
+        ]);
+
+        // 1. Créer le rendez-vous (Statut pending par défaut)
+        $appointment = Appointment::create([
+            'patient_id'       => $request->patient_id,
+            'doctor_id'        => $request->doctor_id,
+            'appointment_date' => $request->appointment_date,
+            'reason'           => $request->reason,
+            'status'           => 'pending',
+        ]);
+
+        // 2. Créer la facture associée
+        Payment::create([
+            'patient_id'     => $request->patient_id,
+            'appointment_id' => $appointment->id,
+            'amount'         => $request->amount,
+            'description'    => 'Consultation Médicale',
+            'status'         => 'pending',
+        ]);
+
+        // 3. Notifier les superadmins et le médecin
+        $superadmins = \App\Models\User::where('role', 'superadmin')->get();
+        \Illuminate\Support\Facades\Notification::send($superadmins, new \App\Notifications\AppointmentCreatedNotification($appointment));
+        
+        if ($appointment->doctor && $appointment->doctor->user) {
+            $appointment->doctor->user->notify(new \App\Notifications\AppointmentCreatedNotification($appointment));
+        }
+
+        return redirect()->route('patients.index')
+            ->with('success', 'Rendez-vous créé ! La facture a été envoyée à la caisse.');
+    }
+}

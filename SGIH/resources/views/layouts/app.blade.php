@@ -9,85 +9,70 @@
         <title>SGIH - Système de Gestion Hospitalière</title>
 
         <!-- FAVICON -->
-        <link rel="icon" href="{{ asset('favicon.ico') }}">
+        <link rel="icon" type="image/svg+xml" href="{{ asset('images/SGIHLogo.svg') }}">
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
-        <!-- Scripts -->
-        <script src="https://cdn.tailwindcss.com"></script>
+        <!-- Scripts & Styles -->
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        
+        <!-- Alpine.js -->
         <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+        <!-- Lucide Icons -->
+        <script src="https://unpkg.com/lucide@latest"></script>
+        <!-- ApexCharts -->
+        <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
-        <!-- SIMPLE BRAND STYLE (optionnel mais pro) -->
-        <style>
-            .sgih-logo {
-                transition: 0.3s ease;
-            }
-            .sgih-logo:hover {
-                transform: scale(1.05);
-                filter: drop-shadow(0 0 6px rgba(59,130,246,0.6));
-            }
-        </style>
     </head>
 
-    <body class="font-sans antialiased text-gray-900 bg-gray-50">
-        <div class="flex h-screen overflow-hidden">
+    <body class="font-sans antialiased text-gray-900 bg-sgih-light selection:bg-sgih-cyan selection:text-white" x-data="{ sidebarOpen: true }">
+        <div class="flex h-screen overflow-hidden bg-sgih-light">
 
             <!-- Sidebar -->
             @include('layouts.sidebar')
 
             <!-- Main Content Area -->
-            <div class="flex-1 flex flex-col overflow-hidden">
+            <div class="flex-1 flex flex-col overflow-hidden min-w-0">
 
-                <!-- NAVIGATION AVEC LOGO (MODIF IMPORTANT) -->
-                <nav class="bg-white border-b px-6 py-3 flex items-center justify-between">
-                    
-                    <div class="flex items-center space-x-3">
-                        <img src="{{ asset('images/logo.png') }}"
-                             alt="SGIH Logo"
-                             class="h-10 sgih-logo">
-
-                        <div>
-                            <h1 class="font-bold text-lg text-blue-600">SGIH</h1>
-                            <p class="text-xs text-gray-500">Gestion Hospitalière</p>
-                        </div>
-                    </div>
-
-                    @include('layouts.navigation')
-                </nav>
+                <!-- NAVIGATION (Topbar) -->
+                @include('layouts.navigation')
 
                 <!-- Page Content -->
-                <main class="flex-1 overflow-y-auto p-8">
+                <main class="flex-1 overflow-y-auto p-6 md:p-8 lg:p-10">
 
                     <!-- Flash Messages -->
                     @if(session('success'))
-                        <div class="mb-6 p-4 bg-green-50 border border-green-200 text-green-600 rounded-2xl font-bold">
-                            {{ session('success') }}
+                        <div class="mb-6 p-4 glassmorphism border-l-4 border-l-green-500 text-green-700 rounded-xl flex items-center shadow-soft">
+                            <i data-lucide="check-circle" class="w-5 h-5 mr-3"></i>
+                            <span class="font-medium">{{ session('success') }}</span>
                         </div>
                     @endif
 
                     @if(session('info'))
-                        <div class="mb-6 p-4 bg-blue-50 border border-blue-200 text-blue-600 rounded-2xl font-bold">
-                            {{ session('info') }}
+                        <div class="mb-6 p-4 glassmorphism border-l-4 border-l-sgih-royalblue text-sgih-deepblue rounded-xl flex items-center shadow-soft">
+                            <i data-lucide="info" class="w-5 h-5 mr-3"></i>
+                            <span class="font-medium">{{ session('info') }}</span>
                         </div>
                     @endif
 
                     @if(session('warning'))
-                        <div class="mb-6 p-4 bg-orange-50 border border-orange-200 text-orange-600 rounded-2xl font-bold">
-                            {{ session('warning') }}
+                        <div class="mb-6 p-4 glassmorphism border-l-4 border-l-orange-500 text-orange-700 rounded-xl flex items-center shadow-soft">
+                            <i data-lucide="alert-triangle" class="w-5 h-5 mr-3"></i>
+                            <span class="font-medium">{{ session('warning') }}</span>
                         </div>
                     @endif
-
-                    @isset($header)
-                        <div class="mb-8">
-                            {{ $header }}
-                        </div>
-                    @endisset
 
                     {{ $slot }}
                 </main>
             </div>
         </div>
+
+        <!-- Initialize Lucide Icons -->
+        <script>
+            lucide.createIcons();
+            
+            // Re-initialize icons when Livewire or Alpine mutates DOM (optional but good practice)
+            document.addEventListener('alpine:initialized', () => {
+                lucide.createIcons();
+            });
+        </script>
     </body>
 </html>

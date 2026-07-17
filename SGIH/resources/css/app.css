@@ -1,3 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+    .glassmorphism {
+        @apply bg-white/70 backdrop-blur-md border border-white/40 shadow-soft;
+    }
+    .text-gradient {
+        @apply bg-clip-text text-transparent bg-gradient-to-r from-sgih-royalblue to-sgih-cyan;
+    }
+    .bg-gradient-sgih {
+        @apply bg-gradient-to-br from-sgih-deepblue to-sgih-royalblue;
+    }
+    .bg-gradient-active {
+        @apply bg-gradient-to-r from-sgih-cyan to-sgih-royalblue;
+    }
+}
+
+body {
+    background-color: #F7FAFD;
+    color: #1f2937;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Custom Scrollbar for a premium feel */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: #e5e7eb;
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #d1d5db;
+}

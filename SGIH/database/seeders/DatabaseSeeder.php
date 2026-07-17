@@ -37,7 +37,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Réception Accueil',
             'email' => 'reception@sgih.com',
             'password' => Hash::make('password'),
-            'role' => 'admin',
+            'role' => 'receptionist',
         ]);
 
         // Compte Médecin pour la démo

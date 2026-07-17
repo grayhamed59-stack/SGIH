@@ -8,6 +8,7 @@ class Payment extends Model
 {
     protected $fillable = [
         'patient_id',
+        'appointment_id',
         'amount',
         'description',
         'status'
@@ -16,5 +17,10 @@ class Payment extends Model
     public function patient()
     {
         return $this->belongsTo(Patient::class);
+    }
+
+    public function appointment()
+    {
+        return $this->belongsTo(Appointment::class);
     }
 }
